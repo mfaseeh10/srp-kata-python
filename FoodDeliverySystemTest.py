@@ -1,11 +1,8 @@
 import unittest
-from FoodDeliverySystem import FoodDeliverySystem
-
-
 class TestFoodDeliverySystem(unittest.TestCase):
     def setUp(self):
         """Set up a fresh instance of the FoodDeliverySystem before each test."""
-        self.system = FoodDeliverySystem()
+
 
     def test_add_menu_item(self):
         self.system.add_menu_item("item1", "Burger", 5.99, 10)
