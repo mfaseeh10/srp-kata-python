@@ -1,11 +1,12 @@
 import unittest
-from FoodDeliverySystem import FoodDeliverySystem
+from FoodDeliverySystem import FoodDeliverySystem, user, menu, order 
 
 
 class TestFoodDeliverySystem(unittest.TestCase):
     def setUp(self):
         """Set up a fresh instance of the FoodDeliverySystem before each test."""
         self.system = FoodDeliverySystem()
+        self.user = user()
 
     def test_add_menu_item(self):
         self.system.add_menu_item("item1", "Burger", 5.99, 10)
@@ -23,6 +24,10 @@ class TestFoodDeliverySystem(unittest.TestCase):
         self.system.add_user("user1", 20.0)
         # Test is successful if no exceptions are thrown
 
+    def test_add_user_v2(self):
+        self.user.add_user("user1", 20.0)
+        # Test is successful if no exceptions are thrown
+
     def test_create_order_success(self):
         self.system.add_menu_item("item1", "Burger", 5.99, 10)
         self.system.add_user("user1", 20.0)
@@ -35,6 +40,15 @@ class TestFoodDeliverySystem(unittest.TestCase):
         self.assertEqual("Pending", delivery_status)
 
     def test_create_order_insufficient_balance(self):
+        self.system.add_menu_item("item1", "Burger", 5.99, 10)
+        self.system.add_user("user1", 5.0)
+        self.system.add_rider("rider1")
+
+        with self.assertRaises(RuntimeError) as context:
+            self.system.create_order("user1", ["item1"], None)
+        self.assertEqual("Insufficient balance.", str(context.exception))
+
+    def test_create_order_insufficient_balance_v2(self):
         self.system.add_menu_item("item1", "Burger", 5.99, 10)
         self.system.add_user("user1", 5.0)
         self.system.add_rider("rider1")
